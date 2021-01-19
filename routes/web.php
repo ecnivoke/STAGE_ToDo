@@ -21,12 +21,6 @@ use App\Http\Controllers\TasksController;
 Route::get('/', function () {
     return view('welcome');
 });
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -34,15 +28,4 @@ Route::post('/lists/add', [ListsController::class, 'store'])->name('add_list');
 Route::post('/tasks/add', [TasksController::class, 'store'])->name('add_task');
 
 require __DIR__.'/auth.php';
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';
->>>>>>> c95f3f096846d47deb4b53fd78e86009e32ac77c
-=======
->>>>>>> Stashed changes
