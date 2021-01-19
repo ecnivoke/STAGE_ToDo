@@ -12,9 +12,11 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         <strong>{{ $list->name }}</strong>
                         <hr />
-                        @foreach($list->Tasks as $task)
-                           👻{{ $task->text }}<br />
-                        @endforeach
+                        <ul>
+                            @foreach($list->Tasks as $task)
+                                <li>{{ $task->text }}</li>
+                            @endforeach
+                        </ul>
                         <button data-list-id="{{ $list->id }}" class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full">TAAK TOEVOEGEN</button>
                     </div>
                 @endforeach
@@ -27,7 +29,7 @@
 
                     <button type="submit">Toevoegen</button>
                 </form>
-  
+
                 <!--Modal-->
                 <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
                     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
