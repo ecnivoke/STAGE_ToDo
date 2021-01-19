@@ -1,38 +1,42 @@
 
-function toggleModal()
+function toggleModal(n, e=null)
 {
-	const modal = $('.modal');
+	const modal = $('.modal-'+n);
 
 	modal.toggleClass('opacity-0');
 	modal.toggleClass('pointer-events-none');
-	$('body').toggleClass('modal-active');
+	$('body').toggleClass('modal-active-'+n);
 
-	$('#task').focus();
+	// Customization for modal 0
+	if(n == 0)
+		$('#list_id').val(e.target.getAttribute('data-list-id'));
+
+	modal.find('form').find('input[autofocus]').focus();
 }
 
 function addEventListeners()
 {
-	// Show List form
-	$('#add_list').click(function(){
-		$('form[data-form="list_form"]').toggleClass('hidden');
-		$('#list').focus();
-	});
+	const modalAmount = 2;
 
 	// Toggle modal by click
-	$('.modal-open, .modal-overlay, .modal-close').click(function(e){
-		$('#list_id').val(e.target.getAttribute('data-list-id'));
-		toggleModal();
-	});
+	for(let i = 0; i < modalAmount; i++){
+		$('.modal-open-'+i+', .modal-overlay-'+i+', .modal-close-'+i).click(function(e){
+			toggleModal(i, e);
+		});
+	}
 
 	// Toggle modal by key
 	$(document).keydown(function(e){
-		if (e.key == 'Escape' && $('body').hasClass('modal-active'))
-			toggleModal();
+		if (e.key == 'Escape' && $('body[class*="modal-active"]')[0]){
+			let modalId = $('body').attr('class');
+			modalId = modalId.slice(modalId.indexOf('modal-active-')+13,modalId.indexOf('modal-active-')+14); // 0-9 ( 10 modals max)
+			toggleModal(modalId);
+		}
 	});
 
-	// Submit task
-	$('#add_task').click(function(){
-		$('#task_form').submit();
+	// Submit form
+	$('button[data-type="submit"]').click(function(){
+		$(this).parent().parent().find('form').submit();
 	});
 }
 
