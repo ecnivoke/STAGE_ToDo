@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\ListsController;
+use App\Http\Controllers\TasksController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +21,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+<<<<<<< Updated upstream
+=======
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::post('/lists/add', [ListsController::class, 'store'])->name('add_list');
+Route::post('/tasks/add', [TasksController::class, 'store'])->name('add_task');
+
+require __DIR__.'/auth.php';
+>>>>>>> Stashed changes
