@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Cookie;
-
 use App\Models\Lists;
 use App\Models\User;
 
@@ -30,6 +28,9 @@ class ListsController extends Controller
         $list->users_id = $id;
 
         $list->save();
+
+        User::where('id', $id)
+            ->update(['last_activity' => date('Y-m-d')]);
 
         return redirect('/dashboard');
     }
