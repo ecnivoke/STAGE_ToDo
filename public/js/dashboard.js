@@ -16,7 +16,7 @@ function toggleModal(n, e=null)
 
 function addEventListeners()
 {
-	const modalAmount = 2;
+	const modalAmount = 2; // Amount of modals used in this page.
 
 	// Toggle modal by click
 	for(let i = 0; i < modalAmount; i++){
