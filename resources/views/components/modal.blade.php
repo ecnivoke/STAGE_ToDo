@@ -26,7 +26,7 @@
             <!--Footer-->
             <div class="flex justify-end pt-2">
                 <button data-type="submit" class="border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline">Opslaan</button>
-                <button class=".modal-close-{{ $id }} border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline">Annuleren</button>
+                <button class="modal-close-{{ $id }} border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline">Annuleren</button>
             </div>
         </div>
     </div>

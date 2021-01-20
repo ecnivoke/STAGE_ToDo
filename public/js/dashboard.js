@@ -7,16 +7,36 @@ function toggleModal(n, e=null)
 	modal.toggleClass('pointer-events-none');
 	$('body').toggleClass('modal-active-'+n);
 
-	// Customization for modal 0
+	// Customization for modal 0 ( Add task )
 	if(n == 0)
 		$('#list_id').val(e.target.getAttribute('data-list-id'));
+
+	// Customization for modal 2 ( Edit task )
+	if(n == 2){
+		$('#edittask').val($(e.target.parentNode).find('span').text());
+		$('#task_id').val(e.target.getAttribute('data-task-id'));
+	}
+
+	// Customization for modal 3 ( Edit list ) 
+	if(n == 3){
+		$('#editlist').val($(e.target.parentNode).find('strong').text());
+		$('#editlist_id').val(e.target.getAttribute('data-list-id'));
+	}
+
+	// Customization for modal 4 ( Delete task )
+	if(n == 4)
+		$('#deletetask_id').val(e.target.getAttribute('data-task-id'));
+
+	// Customization for modal 5 ( Delete list )
+	if(n == 5)
+		$('#deletelist_id').val(e.target.getAttribute('data-list-id'));
 
 	modal.find('form').find('input[autofocus]').focus();
 }
 
 function addEventListeners()
 {
-	const modalAmount = 2; // Amount of modals used in this page.
+	const modalAmount = 6; // Amount of modals used in this page.
 
 	// Toggle modal by click
 	for(let i = 0; i < modalAmount; i++){

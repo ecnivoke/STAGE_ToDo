@@ -34,4 +34,44 @@ class ListsController extends Controller
 
         return redirect('/dashboard');
     }
+
+    /**
+    * Update resource in database
+    */
+    public function update(Request $request)
+    {
+        $request->validate([
+            'list' => ['required', 'string', 'max:255'],
+            'list_id' => ['required', 'integer']
+        ]);
+
+        Lists::where('id', $request->list_id)
+            ->update(['name' => $request->list]);
+
+        $userId = ($request->user()) ? $request->user()->id : User::where('password', Cookie::get('guest_account'))->where('guest', 1)->first()->id;
+        
+        User::where('id', $userId)
+            ->update(['last_activity' => date('Y-m-d')]);
+
+        return redirect('/dashboard');
+    }
+
+    /**
+    * Delete resource in database
+    */
+    public function destroy(Request $request)
+    {
+        $request->validate([
+            'list_id' => ['required', 'integer']
+        ]);
+
+        Lists::destroy($request->list_id);
+
+        $userId = ($request->user()) ? $request->user()->id : User::where('password', Cookie::get('guest_account'))->where('guest', 1)->first()->id;
+        
+        User::where('id', $userId)
+            ->update(['last_activity' => date('Y-m-d')]);
+
+        return redirect('/dashboard');
+    }
 }

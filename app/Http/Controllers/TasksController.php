@@ -34,4 +34,44 @@ class TasksController extends Controller
 
         return redirect('/dashboard');
     }
+
+    /**
+    * Update resource in database
+    */
+    public function update(Request $request)
+    {
+        $request->validate([
+            'task' => ['required', 'string', 'max:255'],
+            'task_id' => ['required', 'integer']
+        ]);
+
+        Tasks::where('id', $request->task_id)
+            ->update(['text' => $request->task]);
+
+        $userId = ($request->user()) ? $request->user()->id : User::where('password', Cookie::get('guest_account'))->where('guest', 1)->first()->id;
+        
+        User::where('id', $userId)
+            ->update(['last_activity' => date('Y-m-d')]);
+
+        return redirect('/dashboard');
+    }
+
+    /**
+    * Delete resource in database
+    */
+    public function destroy(Request $request)
+    {
+        $request->validate([
+            'task_id' => ['required', 'integer']
+        ]);
+
+        Tasks::destroy($request->task_id);
+
+        $userId = ($request->user()) ? $request->user()->id : User::where('password', Cookie::get('guest_account'))->where('guest', 1)->first()->id;
+        
+        User::where('id', $userId)
+            ->update(['last_activity' => date('Y-m-d')]);
+
+        return redirect('/dashboard');
+    }
 }
