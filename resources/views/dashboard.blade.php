@@ -10,18 +10,34 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 @foreach($lists as $list)
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <div>
+                        <div class="relative p-5">
                             <strong>{{ $list->name }}</strong>
-                            <button data-list-id="{{ $list->id }}" class="modal-open-3 border border-yellow-500 bg-yellow-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-yellow-600 focus:outline-none focus:shadow-outline">EDIT THIS LIST</button>
-                            <button data-list-id="{{ $list->id }}" class="modal-open-5 border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline">DELETE THIS LIST</button>
+                            <button data-list-id="{{ $list->id }}" class="modal-open-3 absolute right-1/3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="orange" width="30px" height="30px">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </button>
+                            <button data-list-id="{{ $list->id }}" class="modal-open-5 absolute right-1/4">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="red" width="30px" height="30px">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
                         </div>
                         <hr />
                         <ul class="list-disc">
                             @foreach($list->Tasks as $task)
-                                <li class="ml-10">
+                                <li class="ml-10 relative mt-5">
                                     <span>{{ $task->text }}</span> 
-                                    <button data-task-id="{{ $task->id }}" class="modal-open-2 border border-yellow-500 bg-yellow-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-yellow-600 focus:outline-none focus:shadow-outline">EDIT THIS TASK</button>
-                                    <button data-task-id="{{ $task->id }}" class="modal-open-4 border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline">DELETE THIS TASK</button>
+                                    <button data-task-id="{{ $task->id }}" class="modal-open-2 absolute right-10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="orange" width="30px" height="30px">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                        </svg>
+                                    </button>
+                                    <button data-task-id="{{ $task->id }}" class="modal-open-4 absolute right-0.5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="red" width="30px" height="30px">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
                                 </li>
                             @endforeach
                         </ul>
