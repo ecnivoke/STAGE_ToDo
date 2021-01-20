@@ -9,7 +9,14 @@ use App\Models\User;
 
 class TasksController extends Controller
 {
-    public function __construct(){}
+    /**
+    * Integer of the user ID
+    */
+    private $userId;
+
+    public function __construct(Request $request){
+        $this->userId = ($request->user()) ? $request->user()->id : User::where('password', Cookie::get('guest_account'))->where('guest', 1)->first()->id;   
+    }
 
     /**
     * Store resource in database
@@ -27,9 +34,7 @@ class TasksController extends Controller
 
         $task->save();
 
-        $userId = ($request->user()) ? $request->user()->id : User::where('password', Cookie::get('guest_account'))->where('guest', 1)->first()->id;
-        
-        User::where('id', $userId)
+        User::where('id', $this->userId)
             ->update(['last_activity' => date('Y-m-d')]);
 
         return redirect('/dashboard');
@@ -48,9 +53,7 @@ class TasksController extends Controller
         Tasks::where('id', $request->task_id)
             ->update(['text' => $request->task]);
 
-        $userId = ($request->user()) ? $request->user()->id : User::where('password', Cookie::get('guest_account'))->where('guest', 1)->first()->id;
-        
-        User::where('id', $userId)
+        User::where('id', $this->userId)
             ->update(['last_activity' => date('Y-m-d')]);
 
         return redirect('/dashboard');
@@ -67,9 +70,7 @@ class TasksController extends Controller
 
         Tasks::destroy($request->task_id);
 
-        $userId = ($request->user()) ? $request->user()->id : User::where('password', Cookie::get('guest_account'))->where('guest', 1)->first()->id;
-        
-        User::where('id', $userId)
+        User::where('id', $this->userId)
             ->update(['last_activity' => date('Y-m-d')]);
 
         return redirect('/dashboard');
