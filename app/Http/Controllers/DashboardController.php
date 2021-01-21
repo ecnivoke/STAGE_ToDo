@@ -8,6 +8,7 @@ use Illuminate\Routing\Redirector;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
 
 use App\Models\Lists;
@@ -20,12 +21,11 @@ class DashboardController extends Controller
     public function __construct(Request $request, Redirector $redirect)
     {
 		if(!$request->user() && !Cookie::get('guest_account')){
-			$pass = Crypt::encryptString(Str::random(32));
-			Cookie::queue('guest_account', $pass, 2628000);
+			$token = Hash::make(Str::random(8));
+			Cookie::queue('guest_account', $token, 2628000);
 			User::create([
 				'name' => 'Guest'.time(),
-				'guest' => 1,
-				'password' => $pass
+				'guest_token' => $token
 			]);
 		}
 	}
@@ -42,13 +42,12 @@ class DashboardController extends Controller
     		return redirect('/dashboard');
     	}
 
-    	$id = ($request->user()) 
-    		? $request->user()->id 
-    		: User::where('password', Cookie::get('guest_account'))
-    			->where('guest', 1)
-    			->first()->id;
+        $userId = ($request->user()) 
+            ? $request->user()->id 
+            : User::where('guest_token', Cookie::get('guest_account'))
+                ->first()->id;
 
-    	$lists = Lists::with('Tasks')->where('users_id', $id)->get();
+    	$lists = Lists::with('Tasks')->where('users_id', $userId)->get();
     	return view('dashboard')->with(['lists' => $lists]);
     }
 }

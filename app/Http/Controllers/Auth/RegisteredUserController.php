@@ -10,6 +10,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Cookie;
 
 class RegisteredUserController extends Controller
@@ -48,8 +49,8 @@ class RegisteredUserController extends Controller
 
         // Neem alle lijsten en taken mee naar het nieuwe account.
         // En verwijder het gast account
-        if(Cookie::get('guest_account')){
-            $previousId = User::where('password', Cookie::get('guest_account'))->where('guest', 1)->first()->id;
+        if($cookie = Cookie::get('guest_account')){
+            $previousId = User::where('guest_token', $cookie)->first()->id;
             Lists::where('users_id', $previousId)
                 ->update(['users_id' => $user->id]);
             User::destroy($previousId);
