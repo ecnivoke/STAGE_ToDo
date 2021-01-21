@@ -14,7 +14,7 @@ function toggleModal(n, e=null)
 
 		// Customization for modal 2 ( Edit task )
 		if(n == 2){
-			$('#edittask').val($(e.target.parentNode).find('span').text());
+			$('#edittask').val($(e.currentTarget.parentNode).find('span')[0].textContent);
 			$('#task_id').val(e.currentTarget.getAttribute('data-task-id'));
 		}
 
@@ -61,7 +61,7 @@ function addEventListeners()
 		$(this).parent().parent().find('form').submit();
 	});
 
-	$('#status').click(function(){
+	$('.status').click(function(e){
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -76,7 +76,12 @@ function addEventListeners()
 				'status': ($(this).text().includes('actief')) ? 'voltooid' : 'actief'
 			},
 			success: function(result){
-				$('#status').text(result);
+				let btn = $(e.currentTarget);
+
+				btn.addClass( (result == 'actief') ? 'text-blue-600' : 'text-green-600' );
+				btn.removeClass( (result == 'actief') ? 'text-green-600' : 'text-blue-600' );
+
+				btn.text(result);
 			},
 			error: function(e){
 				console.error(e);

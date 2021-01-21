@@ -174,7 +174,6 @@ Forms
 1. Change the font styles in all browsers.
 2. Remove the margin in Firefox and Safari.
 */
-
 button,
 input,
 optgroup,
@@ -26845,6 +26844,17 @@ select {
 
 .underline {
   text-decoration: underline;
+}
+
+.underline-red-400 {
+  text-decoration: underline;
+  text-decoration-color: #F87171;
+}
+
+.hover\:underline-red-400:hover {
+  text-decoration: underline;
+  text-decoration-color: #F87171;
+  cursor: pointer;
 }
 
 .line-through {
