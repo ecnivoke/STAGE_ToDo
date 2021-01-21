@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Tasks;
 use App\Models\User;
 
@@ -16,7 +17,7 @@ class TasksController extends Controller
     private $userId;
 
     public function __construct(Request $request){
-        $this->userId = ($request->user()) ? $request->user()->id : User::where('guest_token', explode('|', Crypt::decrypt(Cookie::get('guest_account'), false))[1])->first()->id;
+        $this->userId = $request->session()->get('userId');
     }
 
     /**

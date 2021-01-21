@@ -54,8 +54,11 @@ class RegisteredUserController extends Controller
             Lists::where('users_id', $previousId)
                 ->update(['users_id' => $user->id]);
             User::destroy($previousId);
-            Cookie::forget('guest_account');
+            Cookie::queue('guest_account', '', 2628000);
         }
+
+        if( $request->session()->has('userId'))
+            $request->session()->put('userId', $user->id);
 
         event(new Registered($user));
 

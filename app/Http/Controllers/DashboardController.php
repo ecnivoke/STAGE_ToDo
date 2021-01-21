@@ -18,9 +18,9 @@ use App\Models\User;
 
 class DashboardController extends Controller
 {
-    public function __construct(Request $request, Redirector $redirect)
+    public function __construct(Request $request)
     {
-		if(!$request->user() && !Cookie::get('guest_account')){
+		if(!$request->user() && empty(Cookie::get('guest_account'))){
 			$token = Hash::make(Str::random(8));
 			Cookie::queue('guest_account', $token, 2628000);
 			User::create([
@@ -38,7 +38,7 @@ class DashboardController extends Controller
     	// deze if is raar, want de eerste keer als je hier komt doet de cookie het niet.
     	// terwijl die het wel zou moeten doen
     	// na de 2e keer, dus na een redirect, doet ie het wel.
-    	if(!$request->user() && !Cookie::get('guest_account')){
+    	if(!$request->user() && empty(Cookie::get('guest_account'))){
     		return redirect('/dashboard');
     	}
 
@@ -46,6 +46,9 @@ class DashboardController extends Controller
             ? $request->user()->id 
             : User::where('guest_token', Cookie::get('guest_account'))
                 ->first()->id;
+
+        if(!$request->session()->has('userId'))
+            $request->session()->put('userId', $userId);
 
     	$lists = Lists::with('Tasks')->where('users_id', $userId)->get();
     	return view('dashboard')->with(['lists' => $lists]);

@@ -24,13 +24,14 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::post('/lists/add', [ListsController::class, 'store'])->name('add_list');
-Route::post('/lists/edit', [ListsController::class, 'update'])->name('edit_list');
-Route::post('/lists/delete', [ListsController::class, 'destroy'])->name('delete_list');
+Route::middleware(['web', 'userId'])->group(function(){
+	Route::post('/lists/add', [ListsController::class, 'store'])->name('add_list');
+	Route::post('/lists/edit', [ListsController::class, 'update'])->name('edit_list');
+	Route::post('/lists/delete', [ListsController::class, 'destroy'])->name('delete_list');
 
-Route::post('/tasks/add', [TasksController::class, 'store'])->name('add_task');
-Route::post('/tasks/edit', [TasksController::class, 'update'])->name('edit_task');
-Route::post('/tasks/delete', [TasksController::class, 'destroy'])->name('delete_task');
+	Route::post('/tasks/add', [TasksController::class, 'store'])->name('add_task');
+	Route::post('/tasks/edit', [TasksController::class, 'update'])->name('edit_task');
+	Route::post('/tasks/delete', [TasksController::class, 'destroy'])->name('delete_task');
+});
 
 require __DIR__.'/auth.php';
-
