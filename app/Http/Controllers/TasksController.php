@@ -81,6 +81,8 @@ class TasksController extends Controller
 
         User::where('id', $this->userId)
             ->update(['last_activity' => date('Y-m-d')]);
+
+        return $request->status;
     }
 
     /**

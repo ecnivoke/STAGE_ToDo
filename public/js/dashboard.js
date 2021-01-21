@@ -76,7 +76,7 @@ function addEventListeners()
 				'status': ($(this).text().includes('actief')) ? 'voltooid' : 'actief'
 			},
 			success: function(result){
-				window.location.reload();
+				$('#status').text(result);
 			},
 			error: function(e){
 				console.error(e);
