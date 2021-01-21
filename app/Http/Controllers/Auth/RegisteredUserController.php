@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Lists;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Cookie;
 
 class RegisteredUserController extends Controller
 {
@@ -43,6 +46,19 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]));
+
+        // Neem alle lijsten en taken mee naar het nieuwe account.
+        // En verwijder het gast account
+        if($cookie = Cookie::get('guest_account')){
+            $previousId = User::where('guest_token', $cookie)->first()->id;
+            Lists::where('users_id', $previousId)
+                ->update(['users_id' => $user->id]);
+            User::destroy($previousId);
+            Cookie::queue('guest_account', '', 2628000);
+        }
+
+        if( $request->session()->has('userId'))
+            $request->session()->put('userId', $user->id);
 
         event(new Registered($user));
 
