@@ -32,6 +32,7 @@ class TasksController extends Controller
         $task = new Tasks;
 
         $task->text 	= $request->task;
+        $task->status   = 'actief';
         $task->lists_id = $request->list_id;
 
         $task->save();
@@ -53,12 +54,33 @@ class TasksController extends Controller
         ]);
 
         Tasks::where('id', $request->task_id)
-            ->update(['text' => $request->task]);
+            ->update([
+                'text' => $request->task
+            ]);
 
         User::where('id', $this->userId)
             ->update(['last_activity' => date('Y-m-d')]);
 
         return redirect('/dashboard');
+    }
+
+    /**
+    * Update resource in database via ajax
+    */
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'status' => ['required', 'string', 'max:255'],
+            'task_id' => ['required', 'integer']
+        ]);
+
+        Tasks::where('id', $request->task_id)
+            ->update([
+                'status' => $request->status
+            ]);
+
+        User::where('id', $this->userId)
+            ->update(['last_activity' => date('Y-m-d')]);
     }
 
     /**

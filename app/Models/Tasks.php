@@ -23,6 +23,16 @@ class Tasks extends Model
      */
     protected $fillable = [
         'text',
-        'lists_id'
+        'lists_id',
+        'status'
+    ];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'status' => 'actief'
     ];
 }

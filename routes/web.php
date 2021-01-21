@@ -31,6 +31,7 @@ Route::middleware(['web', 'userId'])->group(function(){
 
 	Route::post('/tasks/add', [TasksController::class, 'store'])->name('add_task');
 	Route::post('/tasks/edit', [TasksController::class, 'update'])->name('edit_task');
+	Route::post('/tasks/status', [TasksController::class, 'updateStatus']);
 	Route::post('/tasks/delete', [TasksController::class, 'destroy'])->name('delete_task');
 });
 

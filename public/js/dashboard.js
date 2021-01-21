@@ -60,6 +60,29 @@ function addEventListeners()
 	$('button[data-type="submit"]').click(function(){
 		$(this).parent().parent().find('form').submit();
 	});
+
+	$('#status').click(function(){
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		$.ajax({
+			method: 'POST',
+			url: 	'/tasks/status',
+			data: {
+				'task_id': $(this).attr('data-task-id'),
+				'status': ($(this).text().includes('actief')) ? 'voltooid' : 'actief'
+			},
+			success: function(result){
+				window.location.reload();
+			},
+			error: function(e){
+				console.error(e);
+			}
+		})
+	});
 }
 
 
